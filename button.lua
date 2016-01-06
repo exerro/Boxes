@@ -3,7 +3,7 @@ local button = {}
 local animation = require "animation"
 local shadow_scale = 3
 local image = love.graphics.newImage( love.image.newImageData( 1, 1 ) )
-local use_shader = pcall( love.graphics.newShader, love.filesystem.read "shadow.glsl", nil )
+local use_shader = pcall( love.graphics.newShader, love.filesystem.read "shadow.glsl", nil ) and false
 
 function button:new( ... )
 	local b = setmetatable( {}, { __index = self } )
@@ -84,7 +84,7 @@ function button:mouseup( x, y )
 
 		self:animateZ( self.z, 3, .1 )
 
-		if x - self.x == self.down_x and y - self.y == self.down_y and self.onClick then
+		if self.onClick then
 			self:onClick()
 		end
 

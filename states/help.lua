@@ -14,7 +14,7 @@ title:setf( "How to play", width, "center" )
 
 text:setf( [[
 The aim of the game is to mark as many boxes as you can. By filling in the lines around a box, you mark it with either a '1' or '2', depending on which player you are. The person to fill in the last line around a box marks the box, and gets another go to fill another line. The person in the end with the most boxes marked wins.
-]], width - 300, "center", 0, 100 )
+]], width * 4/5, "center", 0, 100 )
 
 function back:onClick()
 	state.switchTo "main"
@@ -53,7 +53,7 @@ end
 function help:draw()
 	love.graphics.setColor( 0, 0, 0, 200 )
 	love.graphics.draw( title, 0, 50 )
-	love.graphics.draw( text, 150, height / 2 - text:getHeight() / 2 )
+	love.graphics.draw( text, width * 1/10, height / 2 - text:getHeight() / 2 )
 	for i = 1, #buttons do
 		buttons[i]:draw()
 	end
