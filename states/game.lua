@@ -11,7 +11,7 @@ local width, height = getScreenDimensions()
 local player = grid.PLAYER_ONE
 
 local back = button( width / 2 - 100, height - 75, 200, 50, "< back" )
-local title = love.graphics.newText( love.graphics.newFont( "font.otf", 30 ) )
+local title = love.graphics.newText( love.graphics.newFont( "res/font.otf", 30 ) )
 
 title:setf( "Player ONE's turn", width, "center" )
 
@@ -22,7 +22,7 @@ end
 local buttons = { back }
 
 for i = 1, #buttons do
-	buttons[i].font = love.graphics.newFont( "font.otf", 30 )
+	buttons[i].font = love.graphics.newFont( "res/font.otf", 30 )
 end
 
 local function switchPlayer()

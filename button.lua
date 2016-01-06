@@ -3,7 +3,7 @@ local button = {}
 local animation = require "animation"
 local shadow_scale = 3
 local image = love.graphics.newImage( love.image.newImageData( 1, 1 ) )
-local use_shader = pcall( love.graphics.newShader, love.filesystem.read "shadow.glsl", nil ) and false
+local use_shader = pcall( love.graphics.newShader, love.filesystem.read "res/shadow.glsl", nil ) and false
 
 function button:new( ... )
 	local b = setmetatable( {}, { __index = self } )
@@ -21,8 +21,8 @@ function button:init( x, y, width, height, text )
 	self.colour = { 50, 120, 190, 255 }
 	self.colour_held = self.colour or { 110, 160, 230, 255 }
 	self.colour_text = { 255, 255, 255 }
-	self.font = love.graphics.newFont "font.otf"
-	self.shadow = use_shader and love.graphics.newShader( love.filesystem.read "shadow.glsl", nil )
+	self.font = love.graphics.newFont "res/font.otf"
+	self.shadow = use_shader and love.graphics.newShader( love.filesystem.read "res/shadow.glsl", nil )
 	self.held = false
 	self.down_x = 0
 	self.down_y = 0
@@ -59,7 +59,7 @@ function button:draw()
 	end
 
 	love.graphics.setColor( self.held and self.colour_held or self.colour )
-	love.graphics.rectangle( "fill", self.x, self.y, self.width, self.height )
+	love.graphics.rectangle( "fill", self.x, self.y, self.width, self.height, not use_shader and self.height / 4 )
 
 	love.graphics.setFont( self.font )
 	love.graphics.setColor( self.colour_text )

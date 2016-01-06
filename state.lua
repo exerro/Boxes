@@ -101,6 +101,9 @@ function state:switchTo()
 		end
 	end
 
+	if states[index].focussed then
+		states[index]:focussed()
+	end
 	active = index
 end
 

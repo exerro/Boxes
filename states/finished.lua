@@ -6,7 +6,7 @@ local finished = state "finished"
 
 local width, height = getScreenDimensions()
 
-local title = love.graphics.newText( love.graphics.newFont( "font.otf", 40 ) )
+local title = love.graphics.newText( love.graphics.newFont( "res/font.otf", 40 ) )
 local back = button( width / 2 - 100, height * 4 / 5, 200, 50, "Back" )
 
 function back:onClick()
@@ -16,7 +16,7 @@ end
 local buttons = { back }
 
 for i = 1, #buttons do
-	buttons[i].font = love.graphics.newFont( "font.otf", 30 )
+	buttons[i].font = love.graphics.newFont( "res/font.otf", 30 )
 end
 
 function finished:mousepressed( x, y, button )

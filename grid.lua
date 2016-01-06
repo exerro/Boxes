@@ -68,7 +68,7 @@ function grid.draw()
 	local spacing = math.floor( math.min( ( width - 100 ) / size.width, ( height - 200 ) / size.height ) )
 	local lineWidth = math.max( spacing / 8, 8 )
 
-	fonts[spacing] = fonts[spacing] or love.graphics.newFont( "font.otf", spacing * 3 / 4 )
+	fonts[spacing] = fonts[spacing] or love.graphics.newFont( "res/font.otf", spacing * 3 / 4 )
 
 	local gridw, gridh = spacing * ( size.width - 1 ), spacing * ( size.height - 1 )
 	local ox, oy = width / 2 - gridw / 2, height / 2 - gridh / 2

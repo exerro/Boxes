@@ -10,8 +10,9 @@ local small = button( width / 2 - 150, height / 2 - 80, 300, 50, "Small Game" )
 local large = button( width / 2 - 150, height / 2, 300, 50, "Large Game" )
 local help = button( width / 2 - 150, height / 2 + 80, 300, 50, "How To Play" )
 local quit = button( width / 2 - 150, height / 2 + 160, 300, 50, "Quit" )
+local debug = button( 10, 10, 100, 50, "Beta" )
 
-local title = love.graphics.newText( love.graphics.newFont( "font.otf", 60 ) )
+local title = love.graphics.newText( love.graphics.newFont( "res/font.otf", 60 ) )
 
 title:setf( "Boxes", width, "center" )
 
@@ -33,10 +34,14 @@ function quit:onClick()
 	love.event.quit()
 end
 
-local buttons = { small, large, help, quit }
+function debug:onClick()
+	state.switchTo "newgame"
+end
+
+local buttons = { small, large, help, quit, debug }
 
 for i = 1, #buttons do
-	buttons[i].font = love.graphics.newFont( "font.otf", 30 )
+	buttons[i].font = love.graphics.newFont( "res/font.otf", 30 )
 end
 
 function main:mousepressed( x, y, button )

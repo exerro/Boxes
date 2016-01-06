@@ -6,8 +6,8 @@ local help = state "help"
 
 local width, height = getScreenDimensions()
 
-local title = love.graphics.newText( love.graphics.newFont( "font.otf", 40 ) )
-local text = love.graphics.newText( love.graphics.newFont( "font.otf", 25 ) )
+local title = love.graphics.newText( love.graphics.newFont( "res/font.otf", 40 ) )
+local text = love.graphics.newText( love.graphics.newFont( "res/font.otf", 25 ) )
 local back = button( width / 2 - 100, height - 100, 200, 50, "Back" )
 
 title:setf( "How to play", width, "center" )
@@ -23,7 +23,7 @@ end
 local buttons = { back }
 
 for i = 1, #buttons do
-	buttons[i].font = love.graphics.newFont( "font.otf", 30 )
+	buttons[i].font = love.graphics.newFont( "res/font.otf", 30 )
 end
 
 function help:mousepressed( x, y, button )
