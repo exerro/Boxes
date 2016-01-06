@@ -4,7 +4,7 @@ local button = require "button"
 local animation = require "animation"
 local finished = state "finished"
 
-local width, height = love.window.getMode()
+local width, height = getScreenDimensions()
 
 local title = love.graphics.newText( love.graphics.newFont( "font.otf", 40 ) )
 local back = button( width / 2 - 100, height * 4 / 5, 200, 50, "Back" )

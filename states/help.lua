@@ -4,11 +4,11 @@ local button = require "button"
 local animation = require "animation"
 local help = state "help"
 
-local width, height = love.window.getMode()
+local width, height = getScreenDimensions()
 
 local title = love.graphics.newText( love.graphics.newFont( "font.otf", 40 ) )
-local text = love.graphics.newText( love.graphics.newFont( "font.otf", 20 ) )
-local back = button( width / 2 - 100, height * 4 / 5, 200, 50, "Back" )
+local text = love.graphics.newText( love.graphics.newFont( "font.otf", 25 ) )
+local back = button( width / 2 - 100, height - 100, 200, 50, "Back" )
 
 title:setf( "How to play", width, "center" )
 
@@ -52,8 +52,8 @@ end
 
 function help:draw()
 	love.graphics.setColor( 0, 0, 0, 200 )
-	love.graphics.draw( title, 0, 100 )
-	love.graphics.draw( text, 150, 200 )
+	love.graphics.draw( title, 0, 50 )
+	love.graphics.draw( text, 150, height / 2 - text:getHeight() / 2 )
 	for i = 1, #buttons do
 		buttons[i]:draw()
 	end

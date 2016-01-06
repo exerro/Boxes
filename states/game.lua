@@ -7,14 +7,13 @@ local game = state "game"
 local grid = require "grid"
 
 local down = false
-local downx, downy = 0, 0
-local width, height = love.window.getMode()
+local width, height = getScreenDimensions()
 local player = grid.PLAYER_ONE
 
-local back = button( width - 200, 0, 200, 50, "Back" )
+local back = button( width / 2 - 100, height - 75, 200, 50, "< back" )
 local title = love.graphics.newText( love.graphics.newFont( "font.otf", 30 ) )
 
-title:setf( "Player One", width - 200, "center" )
+title:setf( "Player ONE's turn", width, "center" )
 
 function back:onClick()
 	state.switchTo "main"
@@ -28,7 +27,7 @@ end
 
 local function switchPlayer()
 	player = player == grid.PLAYER_ONE and grid.PLAYER_TWO or grid.PLAYER_ONE
-	title:setf( player == grid.PLAYER_ONE and "Player ONE" or "Player TWO", width - 200, "center" )
+	title:setf( player == grid.PLAYER_ONE and "Player ONE's turn" or "Player TWO's turn", width, "center" )
 end
 
 function game:mousepressed( x, y, button )
@@ -40,8 +39,6 @@ function game:mousepressed( x, y, button )
 		end
 
 		down = true
-		downx = x
-		downy = y
 	end
 end
 
@@ -54,28 +51,26 @@ function game:mousereleased( x, y, button )
 		end
 
 		if down then
-			if (x-downx) ^ 2 + (y - downy) ^ 2 < 16 then -- moved less than 4 pixels
-				if grid.activate( grid.getConnection( x, y ) ) then
-					if grid.check( player ) then
-						if grid.finished() then
-							local winner = grid.getWinner()
+			if grid.activate( player, grid.getConnection( x, y ) ) then
+				if grid.check( player ) then
+					if grid.finished() then
+						local winner = grid.getWinner()
 
-							if winner == grid.PLAYER_ONE then
-								print "Player ONE won!"
-								require "states.finished" "Player ONE won!"
-							elseif winner == grid.PLAYER_TWO then
-								print "Player TWO won!"
-								require "states.finished" "Player TWO won!"
-							elseif winner == grid.PLAYER_NONE then
-								print "It's a draw!"
-								require "states.finished" "It's a draw!"
-							end
-
-							state.switchTo "finished"
+						if winner == grid.PLAYER_ONE then
+							print "Player ONE won!"
+							require "states.finished" "Player ONE won!"
+						elseif winner == grid.PLAYER_TWO then
+							print "Player TWO won!"
+							require "states.finished" "Player TWO won!"
+						elseif winner == grid.PLAYER_NONE then
+							print "It's a draw!"
+							require "states.finished" "It's a draw!"
 						end
-					else
-						switchPlayer()
+
+						state.switchTo "finished"
 					end
+				else
+					switchPlayer()
 				end
 			end
 		end
@@ -90,14 +85,14 @@ function game:draw()
 	grid.draw()
 
 	love.graphics.setColor( 0, 0, 0, 200 )
-	love.graphics.draw( title, 0, 10 )
+	love.graphics.draw( title, 0, 25 )
 	for i = 1, #buttons do
 		buttons[i]:draw()
 	end
 end
 
 function game.prep( width, height )
-	title:setf( "Player One", love.window.getMode() - 200, "center" )
+	title:setf( "Player ONE's turn", getScreenWidth(), "center" )
 	player = grid.PLAYER_ONE
 	grid.prep( width, height )
 end

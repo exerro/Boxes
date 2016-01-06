@@ -3,6 +3,7 @@ local button = {}
 local animation = require "animation"
 local shadow_scale = 3
 local image = love.graphics.newImage( love.image.newImageData( 1, 1 ) )
+local use_shader = pcall( love.graphics.newShader, love.filesystem.read "shadow.glsl", nil )
 
 function button:new( ... )
 	local b = setmetatable( {}, { __index = self } )
@@ -21,13 +22,15 @@ function button:init( x, y, width, height, text )
 	self.colour_held = self.colour or { 110, 160, 230, 255 }
 	self.colour_text = { 255, 255, 255 }
 	self.font = love.graphics.newFont "font.otf"
-	self.shadow = love.graphics.newShader( love.filesystem.read "shadow.glsl", nil )
+	self.shadow = use_shader and love.graphics.newShader( love.filesystem.read "shadow.glsl", nil )
 	self.held = false
 	self.down_x = 0
 	self.down_y = 0
 
-	self.shadow:send( "horizontal", self.z * shadow_scale / self.width )
-	self.shadow:send( "vertical", self.z * shadow_scale / self.height )
+	if use_shader then
+		self.shadow:send( "horizontal", self.z * shadow_scale / self.width )
+		self.shadow:send( "vertical", self.z * shadow_scale / self.height )
+	end
 end
 
 function button:animate( attribute, from, to, time )
@@ -40,16 +43,20 @@ function button:animateZ( from, to, time )
 	animation.new( tostring( self ) .. "-z", from, to, time, function( value )
 		self.z = value
 
-		self.shadow:send( "horizontal", self.z * shadow_scale / self.width )
-		self.shadow:send( "vertical", self.z * shadow_scale / self.height )
+		if use_shader then
+			self.shadow:send( "horizontal", self.z * shadow_scale / self.width )
+			self.shadow:send( "vertical", self.z * shadow_scale / self.height )
+		end
 	end )
 end
 
 function button:draw()
 	love.graphics.setColor( 0, 0, 0, 100 )
-	love.graphics.setShader( self.shadow )
-	love.graphics.draw( image, self.x - self.z * shadow_scale, self.y - 0.5 * self.z * shadow_scale, 0, self.width + 2 * self.z * shadow_scale, self.height + 2 * self.z * shadow_scale )
-	love.graphics.setShader()
+	if use_shader then
+		love.graphics.setShader( self.shadow )
+		love.graphics.draw( image, self.x - self.z * shadow_scale, self.y - 0.5 * self.z * shadow_scale, 0, self.width + 2 * self.z * shadow_scale, self.height + 2 * self.z * shadow_scale )
+		love.graphics.setShader()
+	end
 
 	love.graphics.setColor( self.held and self.colour_held or self.colour )
 	love.graphics.rectangle( "fill", self.x, self.y, self.width, self.height )

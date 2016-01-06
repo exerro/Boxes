@@ -4,12 +4,12 @@ local button = require "button"
 local animation = require "animation"
 local main = state "main"
 
-local width, height = love.window.getMode()
+local width, height = getScreenDimensions()
 
-local small = button( width - 350, height / 2 - 80, 300, 50, "Small Game" )
-local large = button( width - 350, height / 2, 300, 50, "Large Game" )
-local help = button( width - 350, height / 2 + 80, 300, 50, "How To Play" )
-local quit = button( width - 350, height / 2 + 160, 300, 50, "Quit" )
+local small = button( width / 2 - 150, height / 2 - 80, 300, 50, "Small Game" )
+local large = button( width / 2 - 150, height / 2, 300, 50, "Large Game" )
+local help = button( width / 2 - 150, height / 2 + 80, 300, 50, "How To Play" )
+local quit = button( width / 2 - 150, height / 2 + 160, 300, 50, "Quit" )
 
 local title = love.graphics.newText( love.graphics.newFont( "font.otf", 60 ) )
 

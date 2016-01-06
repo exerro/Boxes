@@ -5,8 +5,9 @@ local b = {}
 local size = { width = 0, height = 0 }
 
 local STATE_NONE = 0
-local STATE_ACTIVE = 1
-local STATE_HOVER = 2
+local STATE_PLAYER_ONE = 1
+local STATE_PLAYER_TWO = 2
+local STATE_HOVER = 3
 
 local PLAYER_NONE = 0
 local PLAYER_ONE = 1
@@ -19,10 +20,11 @@ local MODE_NONE = 2
 local colours = {
 	node = { 160, 160, 160 };
 	connection_inactive = { 230, 230, 230 };
-	connection_active = { 100, 150, 220 };
+	connection_player_one = { 100, 150, 220 };
+	connection_player_two = { 255, 90, 100 };
 	connection_hovered = { 140, 180, 240 };
-	player_one = { 255, 90, 100, 255 };
-	player_two = { 10, 220, 80, 255 };
+	player_one = { 100, 150, 220 };
+	player_two = { 255, 90, 100 };
 }
 
 local grid = {
@@ -62,14 +64,14 @@ end
 
 function grid.draw()
 
-	local width, height = love.window.getMode()
-	local spacing = math.floor( math.min( ( width - 100 ) / size.width, ( height - 150 ) / size.height ) )
+	local width, height = getScreenDimensions()
+	local spacing = math.floor( math.min( ( width - 100 ) / size.width, ( height - 200 ) / size.height ) )
 	local lineWidth = math.max( spacing / 8, 8 )
 
 	fonts[spacing] = fonts[spacing] or love.graphics.newFont( "font.otf", spacing * 3 / 4 )
 
 	local gridw, gridh = spacing * ( size.width - 1 ), spacing * ( size.height - 1 )
-	local ox, oy = width / 2 - gridw / 2, height / 2 - gridh / 2 + 25
+	local ox, oy = width / 2 - gridw / 2, height / 2 - gridh / 2
 
 	local mx, my = love.mouse.getPosition()
 	local m, hx, hy = grid.getConnection( mx, my )
@@ -85,7 +87,7 @@ function grid.draw()
 				s = STATE_HOVER
 			end
 
-			love.graphics.setColor( colours["connection_" .. ((s == STATE_NONE and "inactive") or (s == STATE_ACTIVE and "active") or (s == STATE_HOVER and "hovered"))] )
+			love.graphics.setColor( colours["connection_" .. ((s == STATE_NONE and "inactive") or (s == STATE_PLAYER_ONE and "player_one") or (s == STATE_PLAYER_TWO and "player_two") or (s == STATE_HOVER and "hovered"))] )
 			love.graphics.rectangle( "fill", (c-1) * spacing + ox, (r-1) * spacing - lineWidth / 2 + oy, spacing, lineWidth )
 		end
 	end
@@ -98,7 +100,7 @@ function grid.draw()
 				s = STATE_HOVER
 			end
 
-			love.graphics.setColor( colours["connection_" .. ((s == STATE_NONE and "inactive") or (s == STATE_ACTIVE and "active") or (s == STATE_HOVER and "hovered"))] )
+			love.graphics.setColor( colours["connection_" .. ((s == STATE_NONE and "inactive") or (s == STATE_PLAYER_ONE and "player_one") or (s == STATE_PLAYER_TWO and "player_two") or (s == STATE_HOVER and "hovered"))] )
 			love.graphics.rectangle( "fill", (c-1) * spacing + ox - lineWidth / 2, (r-1) * spacing + oy, lineWidth, spacing )
 		end
 	end
@@ -129,11 +131,11 @@ function grid.draw()
 end
 
 function grid.getConnection( x, y )
-	local width, height = love.window.getMode()
-	local spacing = math.floor( math.min( ( width - 100 ) / size.width, ( height - 150 ) / size.height ) )
+	local width, height = getScreenDimensions()
+	local spacing = math.floor( math.min( ( width - 100 ) / size.width, ( height - 200 ) / size.height ) )
 
 	local ox = width / 2 - spacing * ( size.width - 1 ) / 2
-	local oy = height / 2 - spacing * ( size.height - 1 ) / 2 + 25
+	local oy = height / 2 - spacing * ( size.height - 1 ) / 2
 
 	x, y = x - ox, y - oy
 
@@ -159,12 +161,12 @@ function grid.getConnection( x, y )
 	end
 end
 
-function grid.activate( mode, x, y )
+function grid.activate( player, mode, x, y )
 	if mode == MODE_VERTICAL or mode == MODE_HORIZONTAL then
 		local t = ( mode == MODE_VERTICAL and v ) or h
 		if t[y] and t[y][x] then
 			if t[y][x] == STATE_NONE then
-				t[y][x] = STATE_ACTIVE
+				t[y][x] = player == PLAYER_ONE and STATE_PLAYER_ONE or STATE_PLAYER_TWO
 				return true
 			else
 				return false
@@ -179,7 +181,7 @@ function grid.check( player )
 	for r = 1, size.height - 1 do
 		for c = 1, size.height - 1 do
 			if b[r][c] == PLAYER_NONE then
-				if v[r][c] == STATE_ACTIVE and h[r][c] == STATE_ACTIVE and h[r + 1][c] == STATE_ACTIVE and v[r][c + 1] == STATE_ACTIVE then
+				if v[r][c] ~= STATE_NONE and h[r][c] ~= STATE_NONE and h[r + 1][c] ~= STATE_NONE and v[r][c + 1] ~= STATE_NONE then
 					b[r][c] = player
 					changed = true
 				end
