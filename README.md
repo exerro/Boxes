@@ -6,4 +6,4 @@ The aim of the game is to mark as many boxes as you can. By filling in the lines
 
 The person to fill in the last line around a box marks the box, and gets another go to fill another line. The person in the end with the most boxes marked wins.
 
-![Looks like the image has been taken down :(](http://puu.sh/mdcnL/bb0bbefc1b.png)
+![Looks like the image has been taken down :(](http://i.imgur.com/lLLP01x.png)
