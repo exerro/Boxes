@@ -18,9 +18,9 @@ function button:init( x, y, width, height, text )
 	self.width = width
 	self.height = height
 	self.text = text
-	self.colour = { 50, 120, 190, 255 }
-	self.colour_held = self.colour or { 110, 160, 230, 255 }
-	self.colour_text = { 255, 255, 255 }
+	self.colour = { 50 / 255, 120 / 255, 190 / 255, 1 }
+	self.colour_held = self.colour or { 110 / 255, 160 / 255, 230 / 255, 1 }
+	self.colour_text = { 1, 1, 1 }
 	self.font = love.graphics.newFont "res/font.otf"
 	self.shadow = use_shader and love.graphics.newShader( love.filesystem.read "res/shadow.glsl", nil )
 	self.held = false

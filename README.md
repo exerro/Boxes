@@ -1,6 +1,6 @@
 # Boxes
 
-A puzzle/strategy game made with love2d.
+A puzzle/strategy game made with [love2d](https://love2d.org).
 
 The aim of the game is to mark as many boxes as you can. By filling in the lines around a box, you mark it with either a '1' or '2', depending on which player you are.
 

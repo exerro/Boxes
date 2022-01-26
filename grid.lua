@@ -18,13 +18,13 @@ local MODE_VERTICAL = 1
 local MODE_NONE = 2
 
 local colours = {
-	node = { 160, 160, 160 };
-	connection_inactive = { 230, 230, 230 };
-	connection_player_one = { 100, 150, 220 };
-	connection_player_two = { 255, 90, 100 };
-	connection_hovered = { 140, 180, 240 };
-	player_one = { 100, 150, 220 };
-	player_two = { 255, 90, 100 };
+	node = { 160 / 255, 160 / 255, 160 / 255 };
+	connection_inactive = { 230 / 255, 230 / 255, 230 / 255 };
+	connection_player_one = { 100 / 255, 150 / 255, 220 / 255 };
+	connection_player_two = { 255 / 255, 90 / 255, 100 / 255 };
+	connection_hovered = { 140 / 255, 180 / 255, 240 / 255 };
+	player_one = { 100 / 255, 150 / 255, 220 / 255 };
+	player_two = { 255 / 255, 90 / 255, 100 / 255 };
 }
 
 local grid = {

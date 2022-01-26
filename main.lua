@@ -2,20 +2,20 @@
 local state = require "state"
 local rotate = love.system.getOS() == "Android" or love.system.getOS() == "iOS"
 
-love.graphics.setBackgroundColor( 240, 240, 240 )
+love.graphics.setBackgroundColor( 240 / 255, 240 / 255, 240 / 255 )
 
 function getScreenWidth()
-	local width, height = love.window.getMode()
+	local width, height = love.graphics.getWidth(), love.graphics.getHeight()
 	return rotate and height or width
 end
 
 function getScreenHeight()
-	local width, height = love.window.getMode()
+	local width, height = love.graphics.getWidth(), love.graphics.getHeight()
 	return rotate and width or height
 end
 
 function getScreenDimensions()
-	local width, height = love.window.getMode()
+	local width, height = love.graphics.getWidth(), love.graphics.getHeight()
 	if rotate then
 		return height, width
 	else
